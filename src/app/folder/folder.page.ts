@@ -69,7 +69,7 @@ export class FolderPage implements OnInit, ViewDidEnter {
     this.map = new maplibre.Map({
       container: 'map', // The id of the map container in the HTML
       style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json', // Link to a MapLibre style
-      zoom: 2 // Set initial zoom level
+      zoom: 1 // Set initial zoom level
     });
   }
 

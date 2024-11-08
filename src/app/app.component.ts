@@ -9,6 +9,7 @@ import { DeviceSubmenuComponent } from './device-submenu/device-submenu.componen
 
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent implements ViewDidEnter, OnInit {
   constructor(public apiservice:ApiService, 
     private popoverController: PopoverController, 
     private menuCtrl: MenuController,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {  }
 
   /*
@@ -59,7 +61,7 @@ export class AppComponent implements ViewDidEnter, OnInit {
   * Function that is responsible for reloading the current router to show all devices of the current user
   */
   showAllDevices(){
-    // console.log("all devices click");
-    window.location.reload();
+    //console.log("all devices click");
+    window.location.pathname = "/";
   }
 }
