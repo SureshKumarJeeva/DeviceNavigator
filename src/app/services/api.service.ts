@@ -41,7 +41,6 @@ export class ApiService {
   *
   */
   login(): Observable<any> {
-    // console.log("login");
     return this.http.post(`${this.apiUrl}/login?email=${this.email}&password=${this.password}`, {
       headers: new HttpHeaders({})
     });

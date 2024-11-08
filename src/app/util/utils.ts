@@ -1,6 +1,6 @@
-  /*
-  * Utils file holding the utility functions
-  */
+/*
+* Utils file holding the utility functions
+*/
 
 
 /*

@@ -18,7 +18,6 @@ export class DeviceSubmenuComponent  implements OnInit {
   * @param option : user selected option in the submenu for a device
   */
   selectOption(option: string) {
-    // console.log(option);
     this.popoverController.dismiss(option); // Close the popover
   }
 

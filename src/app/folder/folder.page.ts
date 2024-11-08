@@ -48,7 +48,6 @@ export class FolderPage implements OnInit, ViewDidEnter {
     
     this.apiService.login().subscribe(
       (response) => {
-        // console.log('POST Response:', response.success.token);
         this.apiService.token = response.success.token;
         this.getCustomerDetails();
         this.getAllDevices();
@@ -65,7 +64,6 @@ export class FolderPage implements OnInit, ViewDidEnter {
   * 
   */
   ionViewDidEnter(): void { 
-    // console.log("inside did enter");
     this.map = new maplibre.Map({
       container: 'map', // The id of the map container in the HTML
       style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json', // Link to a MapLibre style
@@ -80,8 +78,6 @@ export class FolderPage implements OnInit, ViewDidEnter {
   getCustomerDetails():void{
     this.apiService.getUserDetails().subscribe(
       (response) => {
-        // console.log('POST Response firstname:', response.success.firstname);
-        // console.log('POST Response lastname:', response.success.lastname);
         this.apiService.accountName = `${response.success.firstname} ${response.success.lastname}`;
       },
       (error) => {
@@ -97,9 +93,7 @@ export class FolderPage implements OnInit, ViewDidEnter {
   getAllDevices():void{
     this.apiService.getAllDevices().subscribe(
       (response) => {
-        // console.log('POST Response all devices:', response.success);
         response.success.forEach((item:any) => {
-          // console.log(item.id);
           let deviceItem:Device = {  //initialize and load device with essential detials
             id: item.id,
             name:item.name,
@@ -129,9 +123,7 @@ export class FolderPage implements OnInit, ViewDidEnter {
       if(0 == device['lat'] && 0 == device['long']){ //if device location not available
         this.apiService.getDeviceLastLocation(device['id'], 1).subscribe( //retrieve device location from API
           (response) => {
-            // console.log('POST Response devices location:', response.success);
             if(response.success[0]){
-              // console.log('POST Response devices location:', response.success[0].lat);
               device['lat'] = response.success[0].lat;
               device['long'] = response.success[0].lng;
               this.addMarker(response.success[0].lat, response.success[0].lng); //plot the marker for this device location
@@ -152,7 +144,6 @@ export class FolderPage implements OnInit, ViewDidEnter {
   * Function simply adds marker to the map.
   */
   addMarker(lat: number, lng: number) {
-    // console.log('add marker:' + lat + " : " +lng);
     const ele = document.createElement('div');
     ele.className = 'marker';
 
@@ -203,7 +194,6 @@ export class FolderPage implements OnInit, ViewDidEnter {
   * @param deviceCoordinates: coordinates that need to be connected with a polyline
   */
   drawPolyline(deviceCoordinates:number[][]) {
-    // console.log("deviceCoordinates:"+deviceCoordinates);
     const lineData:GeoJSON.Feature = { // geojson object holding the coordinates
       type: 'Feature',
       geometry: {
@@ -231,7 +221,6 @@ export class FolderPage implements OnInit, ViewDidEnter {
         'line-width': 3
       }
     });
-    // console.log("Map Layer added");
   }
 
   /*
@@ -239,8 +228,6 @@ export class FolderPage implements OnInit, ViewDidEnter {
   * @param event: user selected option
   */
   submenuSelected(event:string): void{
-    // console.log("Reached router on submenu click:"+event);
-    // console.log("Reached router on submenu click:"+this.apiService.currentDeviceName);
     this.folder = this.apiService.currentDeviceName || "";
     this.clearAllMarkers(); // clear all markers before initiating the new request
     this.removeLineLayer(); // clear line layer before initiating the new request
@@ -271,11 +258,8 @@ export class FolderPage implements OnInit, ViewDidEnter {
   getCurrentDeviceLastFiftyLocations():void{
     this.apiService.getDeviceLastLocation(this.apiService.currentDeviceID, 50).subscribe(
       (response) => {
-        // console.log('POST Response devices last 50 location:', response.success);
-        // console.log('POST Response devices last 50 location length:', response.success.length);
         if(response.success[0]){
           for(let i:number = 0; i<response.success.length; i++){
-            // console.log('POST Response devices location:',response.success[i].lat, response.success[i].lng);
             this.addMarker(response.success[i].lat, response.success[i].lng); // add marker for device's each location
           }
           this.recenterMap(response.success[0].lat, response.success[0].lng, 8); // fly to starting marker
@@ -293,16 +277,12 @@ export class FolderPage implements OnInit, ViewDidEnter {
   trackCurrentDeviceLastFiftyLocations():void{
     this.apiService.getDeviceLastLocation(this.apiService.currentDeviceID, 50).subscribe(
       (response) => {
-        // console.log('POST Response track devices last 50 location:', response.success);
-        // console.log('POST Response track devices last 50 location length:', response.success.length);
         if(response.success[0]){
           let markerCoordinates:number[][] = []; //marker coordinates
           for(let i:number = 0; i<response.success.length; i++){
-            // console.log('POST Response devices location:',response.success[i].lat, response.success[i].lng);
             this.addMarker(response.success[i].lat, response.success[i].lng);
             markerCoordinates.push([response.success[i].lng as number, response.success[i].lat  as number])
           }
-          // console.log('POST Response track devices last 50 location coordinates:', markerCoordinates);
           this.recenterMap(response.success[0].lat, response.success[0].lng, 8);
           this.drawPolyline(markerCoordinates); // draw the lines connecting all the coordinates
         }

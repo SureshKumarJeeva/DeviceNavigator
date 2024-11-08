@@ -34,7 +34,6 @@ export class AppComponent implements ViewDidEnter, OnInit {
   async presentPopover(event: Event) {
     const element = event.target as HTMLElement;
     
-    // console.log("click submenu device id:"+(event.target as HTMLElement).getAttribute("data-device-id"));
     const popover = await this.popoverController.create({
       component: DeviceSubmenuComponent,
       event: event,
@@ -50,7 +49,6 @@ export class AppComponent implements ViewDidEnter, OnInit {
       this.apiservice.currentDeviceName = element.getAttribute("data-device-name") || "";
       this.apiservice.subMenuSelect(data);
     }
-    // console.log('Selected option:', data);
   }
 
   ngOnInit() { }
@@ -61,7 +59,6 @@ export class AppComponent implements ViewDidEnter, OnInit {
   * Function that is responsible for reloading the current router to show all devices of the current user
   */
   showAllDevices(){
-    //console.log("all devices click");
     window.location.pathname = "/";
   }
 }
